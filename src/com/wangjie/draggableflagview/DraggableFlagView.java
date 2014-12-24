@@ -17,8 +17,6 @@ import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidbucket.utils.ABAppUtil;
 import com.wangjie.androidbucket.utils.ABTextUtil;
 
-import java.util.Arrays;
-
 /**
  * Author: wangjie
  * Email: tiantian.china.2@gmail.com
@@ -107,7 +105,7 @@ public class DraggableFlagView extends View {
         textPaint = new Paint();
         textPaint.setAntiAlias(true);
         textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(ABTextUtil.dip2px(context, 12));
+        textPaint.setTextSize(ABTextUtil.sp2px(context, 12));
         textPaint.setTextAlign(Paint.Align.CENTER);
         textFontMetrics = paint.getFontMetrics();
 
@@ -121,7 +119,7 @@ public class DraggableFlagView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Logger.d(TAG, String.format("onSizeChanged, w: %s, h: %s, oldw: %s, oldh: %s", w, h, oldw, oldh));
+//        Logger.d(TAG, String.format("onSizeChanged, w: %s, h: %s, oldw: %s, oldh: %s", w, h, oldw, oldh));
         if (isFirst && w > 0 && h > 0) {
             isFirst = false;
 
@@ -157,16 +155,15 @@ public class DraggableFlagView extends View {
     private void refreshStartPoint() {
         location = new int[2];
         this.getLocationInWindow(location);
-        Logger.d(TAG, "location on screen: " + Arrays.toString(location));
+//        Logger.d(TAG, "location on screen: " + Arrays.toString(location));
 //            startPoint.set(location[0], location[1] + h);
         try {
             location[1] = location[1] - ABAppUtil.getTopBarHeight((Activity) context);
         } catch (Exception ex) {
-
         }
 
         startPoint.set(location[0], location[1] + getMeasuredHeight());
-        Logger.d(TAG, "startPoint: " + startPoint);
+//        Logger.d(TAG, "startPoint: " + startPoint);
     }
 
     Path path = new Path();
@@ -229,14 +226,15 @@ public class DraggableFlagView extends View {
                 canvas.drawCircle(startCircleX, startCircleY, curRadius, paint);
                 if (curRadius == originRadius) { // 只有在恢复正常的情况下才显示文字
                     // 绘制文字
-                    float textH = textFontMetrics.descent - textFontMetrics.ascent;
+                    float textH = textFontMetrics.bottom - textFontMetrics.top;
                     canvas.drawText(text, startCircleX, startCircleY + textH / 2, textPaint);
+//                    canvas.drawText(text, startCircleX, startCircleY, textPaint);
                 }
             }
 
         }
 
-        Logger.d(TAG, "circleX: " + startCircleX + ", circleY: " + startCircleY + ", curRadius: " + curRadius);
+//        Logger.d(TAG, "circleX: " + startCircleX + ", circleY: " + startCircleY + ", curRadius: " + curRadius);
 
 
     }
@@ -247,7 +245,7 @@ public class DraggableFlagView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
-        Logger.d(TAG, "onTouchEvent: " + event);
+//        Logger.d(TAG, "onTouchEvent: " + event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 isTouched = true;
@@ -260,16 +258,16 @@ public class DraggableFlagView extends View {
 
                 downX = event.getX() + location[0];
                 downY = event.getY() + location[1];
-                Logger.d(TAG, String.format("downX: %f, downY: %f", downX, downY));
+//                Logger.d(TAG, String.format("downX: %f, downY: %f", downX, downY));
 
                 break;
             case MotionEvent.ACTION_MOVE:
                 // 计算直角边和斜边（用于计算绘制两圆之间的填充去）
-                triangle.deltaX = Math.abs(event.getX() - downX);
-                triangle.deltaY = Math.abs(event.getY() - downY);
+                triangle.deltaX = event.getX() - downX;
+                triangle.deltaY = -1 * (event.getY() - downY); // y轴方向相反，所有需要取反
                 double distance = Math.sqrt(triangle.deltaX * triangle.deltaX + triangle.deltaY * triangle.deltaY);
                 triangle.hypotenuse = distance;
-                Logger.d(TAG, "triangle: " + triangle);
+//                Logger.d(TAG, "triangle: " + triangle);
                 refreshCurRadiusByMoveDistance((int) distance);
 
                 endPoint.x = (int) event.getX();
@@ -328,7 +326,7 @@ public class DraggableFlagView extends View {
             float calcRadius = (1 - 1f * distance / maxMoveLength) * originRadius;
             float maxRadius = ABTextUtil.dip2px(context, 2);
             curRadius = (int) Math.max(calcRadius, maxRadius);
-            Logger.d(TAG, "[refreshCurRadiusByMoveDistance]curRadius: " + curRadius + ", calcRadius: " + calcRadius + ", maxRadius: " + maxRadius);
+//            Logger.d(TAG, "[refreshCurRadiusByMoveDistance]curRadius: " + curRadius + ", calcRadius: " + calcRadius + ", maxRadius: " + maxRadius);
         }
 
     }
