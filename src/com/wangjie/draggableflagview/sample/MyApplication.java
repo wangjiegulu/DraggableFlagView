@@ -1,4 +1,4 @@
-package com.wangjie.draggableflagview;
+package com.wangjie.draggableflagview.sample;
 
 import com.wangjie.androidbucket.application.ABApplication;
 

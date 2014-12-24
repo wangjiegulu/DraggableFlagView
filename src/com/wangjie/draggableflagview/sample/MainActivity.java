@@ -1,9 +1,11 @@
-package com.wangjie.draggableflagview;
+package com.wangjie.draggableflagview.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+import com.wangjie.draggableflagview.DraggableFlagView;
+import com.wangjie.draggableflagview.R;
 
 public class MainActivity extends Activity implements DraggableFlagView.OnDraggableFlagViewListener, View.OnClickListener {
 
