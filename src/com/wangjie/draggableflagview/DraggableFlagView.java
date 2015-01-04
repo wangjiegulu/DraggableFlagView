@@ -218,6 +218,10 @@ public class DraggableFlagView extends View {
                 canvas.drawPath(path, paint);
             }
 
+            // 绘制文字
+            float textH = textFontMetrics.bottom - textFontMetrics.top;
+            canvas.drawText(text, endCircleX, endCircleY + textH / 2, textPaint);
+
 
         } else { // 非触摸状态
             if (curRadius > 0) {
@@ -233,10 +237,7 @@ public class DraggableFlagView extends View {
             }
 
         }
-
 //        Logger.d(TAG, "circleX: " + startCircleX + ", circleY: " + startCircleY + ", curRadius: " + curRadius);
-
-
     }
 
     float downX = Float.MAX_VALUE;
@@ -351,28 +352,24 @@ public class DraggableFlagView extends View {
     /**
      * 回滚状态动画
      */
-    private ValueAnimator rollBackAnim;
-
     private void startRollBackAnimation(long duration) {
-        if (null == rollBackAnim) {
-            rollBackAnim = ValueAnimator.ofFloat(curRadius, originRadius);
-            rollBackAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float value = (float) animation.getAnimatedValue();
-                    curRadius = (int) value;
-                    postInvalidate();
-                }
-            });
-            rollBackAnim.setInterpolator(new BounceInterpolator()); // 反弹效果
-            rollBackAnim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    DraggableFlagView.this.clearAnimation();
-                }
-            });
-        }
+        ValueAnimator rollBackAnim = ValueAnimator.ofFloat(curRadius, originRadius);
+        rollBackAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                curRadius = (int) value;
+                postInvalidate();
+            }
+        });
+        rollBackAnim.setInterpolator(new BounceInterpolator()); // 反弹效果
+        rollBackAnim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                DraggableFlagView.this.clearAnimation();
+            }
+        });
         rollBackAnim.setDuration(duration);
         rollBackAnim.start();
     }
@@ -402,6 +399,7 @@ public class DraggableFlagView extends View {
 
     public void setText(String text) {
         this.text = text;
+        this.setVisibility(VISIBLE);
         postInvalidate();
     }
 }

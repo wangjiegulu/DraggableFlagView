@@ -9,13 +9,15 @@ import com.wangjie.draggableflagview.R;
 
 public class MainActivity extends Activity implements DraggableFlagView.OnDraggableFlagViewListener, View.OnClickListener {
 
+    private DraggableFlagView draggableFlagView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         findViewById(R.id.main_btn).setOnClickListener(this);
 
-        DraggableFlagView draggableFlagView = (DraggableFlagView) findViewById(R.id.main_dfv);
+        draggableFlagView = (DraggableFlagView) findViewById(R.id.main_dfv);
         draggableFlagView.setOnDraggableFlagViewListener(this);
         draggableFlagView.setText("7");
 
@@ -32,7 +34,7 @@ public class MainActivity extends Activity implements DraggableFlagView.OnDragga
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_btn:
-                Toast.makeText(this, "hello world", Toast.LENGTH_SHORT).show();
+                draggableFlagView.setText("7");
                 break;
         }
     }
