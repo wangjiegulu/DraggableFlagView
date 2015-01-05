@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.*;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.wangjie.androidbucket.utils.ABTextUtil;
 /**
  * Author: wangjie
  * Email: tiantian.china.2@gmail.com
+ * Github: https://github.com/wangjiegulu/DraggableFlagView
  * Date: 12/23/14.
  */
 public class DraggableFlagView extends View {
@@ -80,7 +82,7 @@ public class DraggableFlagView extends View {
     private Point endPoint = new Point();
 
     private Paint paint; // 绘制圆形图形
-    private Paint textPaint; // 绘制圆形图形
+    private TextPaint textPaint; // 绘制圆形图形
     private Paint.FontMetrics textFontMetrics;
 
     private int[] location;
@@ -102,12 +104,12 @@ public class DraggableFlagView extends View {
         paint.setAntiAlias(true);
 
         // 设置绘制文字的paint
-        textPaint = new Paint();
+        textPaint = new TextPaint();
         textPaint.setAntiAlias(true);
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(ABTextUtil.sp2px(context, 12));
         textPaint.setTextAlign(Paint.Align.CENTER);
-        textFontMetrics = paint.getFontMetrics();
+        textFontMetrics = textPaint.getFontMetrics();
 
     }
 
@@ -219,7 +221,7 @@ public class DraggableFlagView extends View {
             }
 
             // 绘制文字
-            float textH = textFontMetrics.bottom - textFontMetrics.top;
+            float textH = - textFontMetrics.ascent - textFontMetrics.descent;
             canvas.drawText(text, endCircleX, endCircleY + textH / 2, textPaint);
 
 
@@ -230,9 +232,8 @@ public class DraggableFlagView extends View {
                 canvas.drawCircle(startCircleX, startCircleY, curRadius, paint);
                 if (curRadius == originRadius) { // 只有在恢复正常的情况下才显示文字
                     // 绘制文字
-                    float textH = textFontMetrics.bottom - textFontMetrics.top;
+                    float textH = - textFontMetrics.ascent - textFontMetrics.descent;
                     canvas.drawText(text, startCircleX, startCircleY + textH / 2, textPaint);
-//                    canvas.drawText(text, startCircleX, startCircleY, textPaint);
                 }
             }
 
