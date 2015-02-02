@@ -3,12 +3,10 @@ DraggableFlagView
 
 可拖拽的红点，（仿新版QQ，tab下面拖拽标记为已读的效果），拖拽一定的距离可以消失回调。
 
-<img src='https://raw.githubusercontent.com/wangjiegulu/DraggableFlagView/master/screenshot/draggableflagview_a.png' height='500px'/>
+<img src='https://raw.githubusercontent.com/wangjiegulu/DraggableFlagView/master/screenshot/draggableflagview.gif' height='500px'/>
 <img src='https://raw.githubusercontent.com/wangjiegulu/DraggableFlagView/master/screenshot/draggableflagview_b.png' height='500px'/>
 <img src='https://raw.githubusercontent.com/wangjiegulu/DraggableFlagView/master/screenshot/draggableflagview_c.png' height='500px'/>
 <img src='https://raw.githubusercontent.com/wangjiegulu/DraggableFlagView/master/screenshot/draggableflagview_d.png' height='500px'/>
-<img src='https://raw.githubusercontent.com/wangjiegulu/DraggableFlagView/master/screenshot/draggableflagview_e.png' height='500px'/>
-<img src='https://raw.githubusercontent.com/wangjiegulu/DraggableFlagView/master/screenshot/draggableflagview_f.png' height='500px'/>
 
 ### main.xml
         <com.wangjie.draggableflagview.DraggableFlagView
